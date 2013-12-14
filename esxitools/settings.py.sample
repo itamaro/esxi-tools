@@ -1,0 +1,39 @@
+import datetime
+
+DAILY = datetime.timedelta(1)
+WEEKLY = datetime.timedelta(7)
+MONTHLY = datetime.timedelta(28)
+
+GHETTOVCB_LOCAL_SCRIPT_TEMPLATE = u'/full/path/to/vmware/ghettoVCB.sh.tmpl'
+
+ESXI_BACKUP_PROFILES = {
+    u'Mordor-ESXi': {
+        u'host_ip':         u'192.168.1.101',
+        u'ssh_port':        22,
+        u'ssh_user':        u'root',
+        u'ssh_password':    u'password',
+        u'ftp_user':        u'root',
+        u'ftp_password':    u'password',
+        u'backup_times':    ( (datetime.time(23,00,00), datetime.time.max),
+                              (datetime.time.min, datetime.time(04,00,00)) ),
+        u'ghettovcb_script_template': GHETTOVCB_LOCAL_SCRIPT_TEMPLATE,
+        u'remote_workdir':  u'/tmp',
+        u'remote_backup_dir': u'/vmfs/volumes/Backups-LUN/BackupsDir',
+        u'backups_archive_dir': u'/mnt/backups/archive-dir',
+        u'email_report': False,
+        u'gmail_user':  u'example@gmail.com',
+        u'gmail_pwd':   u'password',
+        u'from_field':  u'You <example@gmail.com>',
+        u'recipients':  u'example@gmail.com',
+        u'backup_vms':      {
+            u'Vm-Name': { }, # Uses default config (see below)
+			u'Another-Vm': {
+				u'period':	DAILY,	# Selectively override default config values
+			},
+        },
+        u'default_vm_config': {
+            u'period': WEEKLY,
+            u'rotation_count': 3,
+        },
+    },
+}
